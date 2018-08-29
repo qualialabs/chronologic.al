@@ -24,6 +24,7 @@ Blaze.findTemplate = function(elementOrView) {
 };
 
 Blaze.selectedTemplate = function() {
+  // Call findTemplate using eval to get access to the selected DOM element ($0)
   let tpl = eval('Blaze.findTemplate($0)');
   console.log(`Template Name: ${tpl.view.name.split('.')[1]}`);
   return tpl;
