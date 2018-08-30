@@ -1,5 +1,6 @@
 // For our method caller ID:
 import { DDP } from 'meteor/ddp';
+import { Random } from 'meteor/random';
 import Fiber from 'fibers';
 
 function calledByTheServer() {
@@ -26,12 +27,14 @@ function addMethod(methodName, methodFunction) {
     } else {
       callerName = 'An Anonymous User';
     }
-    console.log(`${callerName} called ${methodName} with`, arguments);
+    // This unique call ID allows you to match arguments and result in the logs
+    const callID = Random.id();
+    console.log(`${callerName} called "${methodName}" (${callID}) with arguments`, JSON.stringify(arguments, null, 2));
 
     // Now we actually call the user-provided function
     const result = await methodFunction.apply(methodFunction, arguments);
 
-    console.log(result);
+    console.log(`${callerName} finished call to "${methodName}" (${callID}) with result`, result);
     return result;
   }
   // Register the Meteor method with our wrapper around it
