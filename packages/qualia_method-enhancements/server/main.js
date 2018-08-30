@@ -11,6 +11,8 @@ function calledByTheServer() {
   return isInternalCall || (!DDP._CurrentInvocation.get() || !DDP._CurrentInvocation.get().connection);
 }
 
+const nativeMeteorMethods = Meteor.methods.bind(Meteor);
+
 function addMethod(methodName, methodFunction) {
   // Add additional features and diagnostics around the original Method
   // functionality
@@ -33,8 +35,15 @@ function addMethod(methodName, methodFunction) {
     return result;
   }
   // Register the Meteor method with our wrapper around it
-  Meteor.methods({
+  nativeMeteorMethods({
     [methodName]: wrappedMethod,
+  });
+}
+
+// The patch
+Meteor.methods = function(methodsObject) {
+  _.each(methodsObject, (method, name) => {
+    addMethod(name, method);
   });
 }
 
