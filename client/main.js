@@ -1,35 +1,92 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { _ } from 'meteor/underscore';
+import { Random } from 'meteor/random';
+import moment from 'moment-timezone';
 
+import '../common';
 import './main.html';
 
-async function callPromise(methodName, ...args) {
-  return new Promise((resolve, reject) => {
-    Meteor.apply(methodName, args, {}, (error, result) => {
-      if (error) {
-        return reject(error);
-      }
-      return resolve(result);
-    });
-  });
-}
+// If you haven't tried async/await with your Meteor Methods...
+// async function callPromise(methodName, ...args) {
+//   return new Promise((resolve, reject) => {
+//     Meteor.apply(methodName, args, {}, (error, result) => {
+//       if (error) {
+//         return reject(error);
+//       }
+//       return resolve(result);
+//     });
+//   });
+// }
 
-Template.hello.onCreated(function helloOnCreated() {
-  // counter starts at 0
+Template.clock.onCreated(function() {
   const tpl = this;
-  tpl.counter = new ReactiveVar(0);
+
+  Meteor.subscribe('users');
+
+  _.extend(tpl, {
+
+    currentMoment: new ReactiveVar(moment()),
+
+    currentFormattedTime: new ReactiveVar(''),
+
+    showColons: new ReactiveVar(true),
+
+    themeColor: new ReactiveVar('#eee'),
+
+    initialize() {
+      tpl.startTimer();
+      tpl.watchTime();
+      tpl.recordLastActiveDate();
+    },
+
+    startTimer() {
+      Meteor.setInterval(() => tpl.currentMoment.set(moment()), 1000);
+    },
+
+    watchTime() {
+      Tracker.autorun(() => {
+        const user = Meteor.user();
+        const timezone = user && user.timezone || moment.tz.guess();
+        const currentMoment = tpl.currentMoment.get();
+        currentMoment.tz(timezone);
+        const shouldShowColons = Tracker.nonreactive(() => tpl.showColons.get());
+        const format = shouldShowColons ? 'HH:mm:ss' : 'HH mm ss';
+        tpl.currentFormattedTime.set(currentMoment.format(format));
+        tpl.showColons.set(!shouldShowColons);
+      });
+    },
+
+    recordLastActiveDate() {
+      Meteor.setInterval(() => {
+        if (Meteor.userId()) {
+          Meteor.users.update(Meteor.userId(), {
+            $set: {
+              last_active_date: new Date(),
+            },
+          });
+        }
+      }, 300);
+    },
+
+  });
+
+  tpl.initialize();
+
 });
 
-Template.hello.helpers({
-  counter() {
+Template.clock.helpers({
+  currentTime() {
     const tpl = Template.instance();
-    return tpl.counter.get();
+    return tpl.currentFormattedTime.get();
   },
-});
-
-Template.hello.events({
-  async 'click button'(event, instance) {
-    // increment the counter when button is clicked
-    instance.counter.set(await callPromise('clickButton'));
+  timeStyle() {
+    const tpl = Template.instance();
+    const user = Meteor.user();
+    const themeColor = user && user.theme_color || '#eee';
+    return `background-color: ${themeColor};`;
+  },
+  user() {
+    return Meteor.user();
   },
 });

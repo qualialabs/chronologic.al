@@ -1,25 +1,28 @@
 <head>
-  <title>buggy</title>
+  <title>chronologic.al</title>
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
-
-  {{> hello}}
-  {{> info}}
+  {{> loginButtons}}
+  {{> clock}}
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
-</template>
+<template name="clock">
+  <h1>chronologic.al</h1>
+  <h2>using advanced artificial intelligence to get you the time, when you need it</h2>
+  {{#unless user}}
+    <h2>Sign in to customize the site!</h2>
+  {{/unless}}
+  <clock>
+    <time style="{{timeStyle}}">{{currentTime}}</time>
+  </clock>
+  {{#if user}}
+    {{#autoForm collection="Meteor.users" doc=user id="userConfigForm" type="update" autosave=true}}
+      <fieldset>
+        {{> afQuickField name='theme_color'}}
+        {{> afQuickField name='timezone' type='select' options='allowed'}}
+      </fieldset>
+    {{/autoForm}}
+  {{/if}}
 
-<template name="info">
-  <h2>Learn Meteor!</h2>
-  <ul>
-    <li><a href="https://www.meteor.com/try" target="_blank">Do the Tutorial</a></li>
-    <li><a href="http://guide.meteor.com" target="_blank">Follow the Guide</a></li>
-    <li><a href="https://docs.meteor.com" target="_blank">Read the Docs</a></li>
-    <li><a href="https://forums.meteor.com" target="_blank">Discussions</a></li>
-  </ul>
 </template>
