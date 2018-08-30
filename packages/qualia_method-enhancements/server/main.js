@@ -12,21 +12,24 @@ function calledByTheServer() {
   return isInternalCall || (!DDP._CurrentInvocation.get() || !DDP._CurrentInvocation.get().connection);
 }
 
+function identifyCaller(userID) {
+  if (calledByTheServer()) {
+    return 'The Server';
+  } else if (userID) {
+    const user = Meteor.users.findOne(userID, {fields: {emails: 1}});
+    return `"${user.emails[0].address}"`;
+  } else {
+    return 'An Anonymous User';
+  }
+}
+
 const nativeMeteorMethods = Meteor.methods.bind(Meteor);
 
 function addMethod(methodName, methodFunction) {
   // Add additional features and diagnostics around the original Method
   // functionality
   async function wrappedMethod() {
-    const callerUserID = this.userId;
-    let callerName;
-    if (calledByTheServer()) {
-      callerName = 'The Server';
-    } else if (callerUserID) {
-      callerName = `"${Meteor.user().emails[0].address}"`;
-    } else {
-      callerName = 'An Anonymous User';
-    }
+    const callerName = identifyCaller(this.userId);
     // This unique call ID allows you to match arguments and result in the logs
     const callID = Random.id();
     console.log(`${callerName} called "${methodName}" (${callID}) with arguments`, JSON.stringify(arguments, null, 2));
