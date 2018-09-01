@@ -22,7 +22,9 @@ import './main.html';
 Template.clock.onCreated(function() {
   const tpl = this;
 
-  Meteor.subscribe('users');
+  Meteor.subscribe('users.basic');
+  Meteor.subscribe('users.theme');
+  Meteor.subscribe('users.timezone');
 
   _.extend(tpl, {
 
@@ -47,7 +49,7 @@ Template.clock.onCreated(function() {
     watchTime() {
       Tracker.autorun(() => {
         const user = Meteor.user();
-        const timezone = user && user.timezone || moment.tz.guess();
+        const timezone = user && user.preferences && user.preferences.timezone || moment.tz.guess();
         const currentMoment = tpl.currentMoment.get();
         currentMoment.tz(timezone);
         const shouldShowColons = Tracker.nonreactive(() => tpl.showColons.get());
@@ -83,7 +85,7 @@ Template.clock.helpers({
   timeStyle() {
     const tpl = Template.instance();
     const user = Meteor.user();
-    const themeColor = user && user.theme_color || '#eee';
+    const themeColor = user && user.preferences && user.preferences.theme_color || '#eee';
     return `background-color: ${themeColor};`;
   },
   user() {

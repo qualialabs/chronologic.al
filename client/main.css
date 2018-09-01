@@ -40,7 +40,7 @@ clock time {
 
 #userConfigForm > fieldset > .form-group {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 /* #userConfigForm > fieldset > .form-group > label {

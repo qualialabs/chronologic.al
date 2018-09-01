@@ -9,7 +9,7 @@
 
 <template name="clock">
   <h1>chronologic.al</h1>
-  <h2>using advanced artificial intelligence to get you the time, when you need it</h2>
+  <h2>the premier time-as-a-service solution</h2>
   {{#unless user}}
     <h2>Sign in to customize the site!</h2>
   {{/unless}}
@@ -19,8 +19,8 @@
   {{#if user}}
     {{#autoForm collection="Meteor.users" doc=user id="userConfigForm" type="update" autosave=true}}
       <fieldset>
-        {{> afQuickField name='theme_color'}}
-        {{> afQuickField name='timezone' type='select' options='allowed'}}
+        {{> afQuickField name='preferences.theme_color'}}
+        {{> afQuickField name='preferences.timezone' type='select' options='allowed'}}
       </fieldset>
     {{/autoForm}}
   {{/if}}

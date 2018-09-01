@@ -5,16 +5,34 @@ import moment from 'moment-timezone';
 
 SimpleSchema.extendOptions(['autoform']);
 
+if (Meteor.isServer) {
+  Meteor.users.allow({
+    insert: () => true,
+    update: () => true,
+    remove: () => true,
+  });
+
+  Meteor.publish('users.basic', function() {
+    return Meteor.users.find({}, {fields: {'preferences': 0}});
+  });
+  Meteor.publish('users.theme', function() {
+    return Meteor.users.find({}, {fields: {'preferences.theme_color': 1}});
+  });
+  Meteor.publish('users.timezone', function() {
+    return Meteor.users.find({}, {fields: {'preferences.timezone': 1}});
+  });
+}
+
 Meteor.users.attachSchema(new SimpleSchema({
-  theme_color: {
+  'preferences': {
+    type: Object,
+    optional: true,
+  },
+  'preferences.theme_color': {
     type: String,
     optional: true,
   },
-  last_active_date: {
-    type: Date,
-    optional: true,
-  },
-  timezone: {
+  'preferences.timezone': {
     type: String,
     optional: true,
     allowedValues: [
@@ -24,20 +42,23 @@ Meteor.users.attachSchema(new SimpleSchema({
       'America/New_York',
     ],
   },
-
+  'last_active_date': {
+    type: Date,
+    optional: true,
+  },
   // These come from accounts-base
-  emails: {
+  'emails': {
     type: Array,
     minCount: 1,
   },
   'emails.$': Object,
   'emails.$.address': String,
   'emails.$.verified': Boolean,
-  login_token: {
+  'login_token': {
     type: Object,
     blackbox: true,
   },
-  services: {
+  'services': {
     type: Object,
     blackbox: true,
   },
