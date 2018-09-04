@@ -10,10 +10,10 @@ the examples below to practice debugging in Meteor!
 
 ## Start the app
 
-1. If you don't have Node, install it (I recommend
+1. If you don't have Node, install it (try
 https://github.com/creationix/nvm)
 2. Install Meteor on your computer with `npm install --global meteor`
-3. Run `meteor` in the root directory of this repo to start the app
+3. Run `npm start` in the root directory of this repo to start the app
 
 ## Problem 1: Why is the clock blinking so quickly?
 
@@ -73,3 +73,6 @@ build of this Meteor app into the virtual machine.
 
 Visit the app at `localhost:8080`. When you open the Chrome console, the
 "sources" tab should automatically discover the source maps.
+
+If you change the source code, you can redeploy it to the virtual machine by
+running `mup deploy` again.

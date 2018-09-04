@@ -15,7 +15,6 @@
     "meteor-node-stubs": "^0.4.1",
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.21",
-    "shelljs": "^0.8.2",
     "simpl-schema": "^1.5.3"
   },
   "meteor": {
