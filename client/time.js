@@ -41,16 +41,16 @@ function watchTime(currentFormattedTime, showColons) {
 
 /**
   This autorun takes as input the `currentMoment`, a reactive variable with  a
-  `moment` object in it (defined above). It sets the moon rotation in the
-  provided `moonRotation` reactive variable.
+  `moment` object in it (defined above). It sets the moon phase in the provided
+  `moonPhase` reactive variable.
 */
-function watchMoon(moonRotation) {
+function watchMoon(moonPhase) {
   Tracker.autorun(async () => {
     const current = currentMoment.get();
-    const illumination = await callPromise('getMoonIllumination', {
+    const phase = await callPromise('getMoonPhase', {
       date: new Date(current),
     });
-    moonRotation.set(illumination * 180 - 90)
+    moonPhase.set(phase)
   });
 }
 

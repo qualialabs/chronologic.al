@@ -17,11 +17,7 @@
     <time style="{{timeStyle}}">{{currentTime}}</time>
   </clock>
   <moonContainer>
-    <moonPhase style="transform: rotate({{moonRotation}}deg);">
-      <wheel style="transform: rotate({{negativeMoonRotation}}deg);">
-        <img src="/plate.png">
-      </wheel>
-    </moonPhase>
+    <canvas id="moonCanvas" width=175 height=175></canvas>
   </moonContainer>
   {{#if user}}
     {{#autoForm collection="Meteor.users" doc=user id="userConfigForm" type="update" autosave=true}}

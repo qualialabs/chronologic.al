@@ -20,20 +20,73 @@ Template.clock.onCreated(function() {
 
     currentFormattedTime: new ReactiveVar(''),
 
-    moonRotation: new ReactiveVar(0),
+    moonPhase: new ReactiveVar(0),
 
     showColons: new ReactiveVar(true),
 
     initialize() {
       watchTime(tpl.currentFormattedTime, tpl.showColons);
-      watchMoon(tpl.moonRotation);
+      watchMoon(tpl.moonPhase);
       recordLastActiveDate();
+    },
+
+    updateMoonCanvas() {
+      const phase = tpl.moonPhase.get();
+      const skyColor = '#0B1A72';
+      const moonColor = '#FFF';
+
+      const canvas = document.getElementById('moonCanvas');
+      const ctx = canvas.getContext('2d');
+
+      const halfProgress = (phase * 2) % 1;
+      const waxing = phase < 0.5;
+      let foregroundColor, backgroundColor;
+      if (waxing) {
+        foregroundColor = halfProgress < 0.5 ? skyColor : moonColor;
+        backgroundColor = halfProgress < 0.5 ? moonColor : skyColor;
+      } else {
+        foregroundColor = halfProgress < 0.5 ? moonColor : skyColor;
+        backgroundColor = halfProgress < 0.5 ? skyColor : moonColor;
+      }
+
+      // Background
+      ctx.beginPath();
+      ctx.arc(canvas.width/2, canvas.height/2, canvas.width/2, 0, 2 * Math.PI);
+      ctx.fillStyle = backgroundColor;
+      ctx.fill();
+
+      // Filled half (on the right when halfProgress < 0.5; otherwise, on the
+      // left)
+      const offset = halfProgress < 0.5 ? 0 : Math.PI;
+      ctx.beginPath();
+      ctx.arc(canvas.width/2, canvas.height/2, canvas.width/2, offset-Math.PI/2, offset+Math.PI/2);
+      ctx.fillStyle = foregroundColor;
+      ctx.fill();
+
+      // Extra curve
+      ctx.save();
+      ctx.beginPath();
+      const width = canvas.width * Math.abs(1 - halfProgress * 2);
+      const radius = width / 2;
+      ctx.translate(canvas.width / 2 - radius, 0);
+      ctx.scale(radius, canvas.height / 2);
+      ctx.arc(1, 1, 1, 0, 2 * Math.PI);
+      ctx.restore();
+      ctx.fillStyle = foregroundColor;
+      ctx.fill();
+
+      requestAnimationFrame(() => tpl.updateMoonCanvas());
     },
 
   });
 
   tpl.initialize();
 
+});
+
+Template.clock.onRendered(function() {
+  const tpl = this;
+  tpl.updateMoonCanvas();
 });
 
 Template.clock.helpers({
@@ -49,13 +102,5 @@ Template.clock.helpers({
   },
   user() {
     return Meteor.user();
-  },
-  moonRotation() {
-    const tpl = Template.instance();
-    return tpl.moonRotation.get();
-  },
-  negativeMoonRotation() {
-    const tpl = Template.instance();
-    return -tpl.moonRotation.get();
   },
 });

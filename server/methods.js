@@ -2,15 +2,15 @@ import { Accounts } from 'meteor/accounts-base';
 import { check } from 'meteor/check';
 import lune from 'lune';
 
-calculateMoonIllumination = function calculateMoonIllumination(args) {
+calculateMoonPhase = function calculateMoonPhase(date) {
   const phaseInformation = lune.phase(date);
-  return phaseInformation.illumination;
+  return phaseInformation.phhase;
 }
 
 Meteor.methods({
-  'getMoonIllumination'(args) {
+  'getMoonPhase'(args) {
     try {
-      return calculateMoonIllumination();
+      return calculateMoonPhase(args);
     } catch (e) {
       return 0;
     }

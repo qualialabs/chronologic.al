@@ -38,8 +38,8 @@ new moon (completely hidden) all the time. Why isn't the moon phase changing?
 
 ### Hint:
 
-The client calls the meteor method `getMoonIllumination` in `server.methods.js`
-to check the current phase of the moon.
+The client calls the meteor method `getMoonPhase` (defined in
+`server/methods.js`) to check the current phase of the moon.
 
 Uncomment the line to add `demo:method-enhancements` in `.meteor/packages` to
 enable method logging!
