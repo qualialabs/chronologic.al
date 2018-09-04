@@ -25,7 +25,7 @@ blinking becomes much more erratic. What's going on here?
 
 ### Hint:
 
-The `watchTime` function in `client/main.js` is responsible for updating the
+The `watchTime` function in `client/time.js` is responsible for updating the
 displayed time. Try looking at it in the Chrome debugger!
 
 ## Problem 2: Why is the moon phase stuck?
@@ -38,9 +38,11 @@ new moon (completely hidden) all the time. Why isn't the moon phase changing?
 
 ### Hint:
 
-The client calls the meteor method `getMoonIllumination` to check the current
-phase of the moon. Uncomment the line to add `demo:method-enhancements` in
-`.meteor/packages` to enable method logging!
+The client calls the meteor method `getMoonIllumination` in `server.methods.js`
+to check the current phase of the moon.
+
+Uncomment the line to add `demo:method-enhancements` in `.meteor/packages` to
+enable method logging!
 
 Once you see what's going on in the logs, try logging in to the production
 Meteor shell to test the function. The `qualia:prod-shell` package created a
@@ -60,15 +62,19 @@ it doesn't seem to "stick".
 
 ### Hint:
 
-This one is subtle :) The inputs for the user's preference rely on data
+This one is subtle :) The form inputs for the user's preferences rely on data
 published from the server. Check out the subscriptions in the Meteor dev tools,
-the docs here https://docs.meteor.com/api/pubsub.html!
+and the docs at https://docs.meteor.com/api/pubsub.html#Meteor-publish
 
-## Bonus: Try production sourcemaps
+## Bonus (optional): Run this app in a virtual machine
 
-This app includes an example of using production sourcemaps. To try them out,
-run the following commands in this repo's root directory. You will need Vagrant
-and Virtualbox installed on your machine.
+This app includes an example of using production sourcemaps and the production
+meteor shell. `npm start` runs meteor with the `--production` flag to
+demonstrate these features, but for even more realism, you can build this app
+and run it in a virtual machine.
+
+To try it out, run the following commands in this repo's root directory. You
+will need Vagrant and Virtualbox installed on your machine.
 
     vagrant up
     cd .deploy
@@ -83,3 +89,6 @@ Visit the app at `localhost:8080`. When you open the Chrome console, the
 
 If you change the source code, you can redeploy it to the virtual machine by
 running `mup deploy` again.
+
+Log in to the virtual machine with `vagrant ssh`, and run
+`node ~/meteor-shell.js` to open the production Meteor shell!
