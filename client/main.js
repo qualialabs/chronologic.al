@@ -8,16 +8,16 @@ import '../common';
 import './main.html';
 
 // If you haven't tried async/await with your Meteor Methods...
-// async function callPromise(methodName, ...args) {
-//   return new Promise((resolve, reject) => {
-//     Meteor.apply(methodName, args, {}, (error, result) => {
-//       if (error) {
-//         return reject(error);
-//       }
-//       return resolve(result);
-//     });
-//   });
-// }
+async function callPromise(methodName, ...args) {
+  return new Promise((resolve, reject) => {
+    Meteor.apply(methodName, args, {}, (error, result) => {
+      if (error) {
+        return reject(error);
+      }
+      return resolve(result);
+    });
+  });
+}
 
 Template.clock.onCreated(function() {
   const tpl = this;
@@ -32,6 +32,8 @@ Template.clock.onCreated(function() {
 
     currentFormattedTime: new ReactiveVar(''),
 
+    moonRotation: new ReactiveVar(0),
+
     showColons: new ReactiveVar(true),
 
     themeColor: new ReactiveVar('#eee'),
@@ -39,6 +41,7 @@ Template.clock.onCreated(function() {
     initialize() {
       tpl.startTimer();
       tpl.watchTime();
+      tpl.watchMoon();
       tpl.recordLastActiveDate();
     },
 
@@ -56,6 +59,16 @@ Template.clock.onCreated(function() {
         const format = shouldShowColons ? 'HH:mm:ss' : 'HH mm ss';
         tpl.currentFormattedTime.set(currentMoment.format(format));
         tpl.showColons.set(!shouldShowColons);
+      });
+    },
+
+    watchMoon() {
+      Tracker.autorun(async () => {
+        const currentMoment = tpl.currentMoment.get();
+        const illumination = await callPromise('getMoonIllumination', {
+          date: new Date(currentMoment),
+        });
+        tpl.moonRotation.set(illumination * 180 - 90)
       });
     },
 
@@ -90,5 +103,13 @@ Template.clock.helpers({
   },
   user() {
     return Meteor.user();
+  },
+  moonRotation() {
+    const tpl = Template.instance();
+    return tpl.moonRotation.get();
+  },
+  negativeMoonRotation() {
+    const tpl = Template.instance();
+    return -tpl.moonRotation.get();
   },
 });

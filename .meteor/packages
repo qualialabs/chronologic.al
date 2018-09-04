@@ -19,9 +19,12 @@ shell-server@0.3.1            # Server-side component of the `meteor shell` comm
 qualia:prod-shell
 qualia:prod-source-maps
 qualia:blaze-extensions
-qualia:method-enhancements
 accounts-password
 accounts-ui
 aldeed:autoform
 aldeed:collection2
 zodern:standard-minifier-js
+qualia:reval
+
+## Uncomment the line below to add Meteor Method logging to the server:
+# qualia:method-enhancements

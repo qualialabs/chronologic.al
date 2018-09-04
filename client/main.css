@@ -49,3 +49,29 @@ clock time {
 #userConfigForm > fieldset > .form-group > .help-block {
   display: none;
 }
+
+moonContainer {
+  display: flex;
+  justify-content: center;
+}
+
+moonPhase {
+  display: block;
+  width: 175px;
+  height: 175px;
+  background-image: url('/wheel.png');
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+moonPhase img {
+  height: 100%;
+  width: 100%;
+}
+
+moonPhase wheel {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

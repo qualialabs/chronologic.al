@@ -16,6 +16,13 @@
   <clock>
     <time style="{{timeStyle}}">{{currentTime}}</time>
   </clock>
+  <moonContainer>
+    <moonPhase style="transform: rotate({{moonRotation}}deg);">
+      <wheel style="transform: rotate({{negativeMoonRotation}}deg);">
+        <img src="/plate.png">
+      </wheel>
+    </moonPhase>
+  </moonContainer>
   {{#if user}}
     {{#autoForm collection="Meteor.users" doc=user id="userConfigForm" type="update" autosave=true}}
       <fieldset>
