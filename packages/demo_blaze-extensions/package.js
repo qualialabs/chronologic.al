@@ -1,7 +1,7 @@
 Package.describe({
-  name: 'qualia:method-enhancements',
+  name: 'demo:blaze-extensions',
   version: '0.0.1',
-  summary: 'Additions to native Meteor Method behavior',
+  summary: 'Additional functionality for Blaze templates',
   git: '',
   documentation: 'README.md',
 });
@@ -9,11 +9,11 @@ Package.describe({
 var dependencies = [
   'ecmascript',
   'underscore',
+  'blaze',
 ];
 
 Package.onUse(function(api) {
   api.versionsFrom('METEOR@1.4');
   api.use(dependencies, ['client', 'server']);
   api.mainModule('client/main.js', 'client');
-  api.mainModule('server/main.js', 'server');
 });

@@ -17,8 +17,6 @@ ecmascript@0.11.1              # Enable ECMAScript2015+ syntax in app code
 shell-server@0.3.1            # Server-side component of the `meteor shell` command
 
 qualia:prod-shell
-qualia:prod-source-maps
-qualia:blaze-extensions
 accounts-password
 accounts-ui
 aldeed:autoform
@@ -26,5 +24,8 @@ aldeed:collection2
 zodern:standard-minifier-js
 qualia:reval
 
+demo:prod-source-maps
+demo:blaze-extensions
+
 ## Uncomment the line below to add Meteor Method logging to the server:
-# qualia:method-enhancements
+# demo:method-enhancements

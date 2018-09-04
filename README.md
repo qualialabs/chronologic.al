@@ -39,7 +39,7 @@ new moon (completely hidden) all the time. Why isn't the moon phase changing?
 ### Hint:
 
 The client calls the meteor method `getMoonIllumination` to check the current
-phase of the moon. Uncomment the line to add `qualia:method-enhancements` in
+phase of the moon. Uncomment the line to add `demo:method-enhancements` in
 `.meteor/packages` to enable method logging!
 
 ## Problem 3: What's happening with user preferences?
