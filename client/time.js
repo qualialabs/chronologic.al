@@ -1,6 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import moment from 'moment-timezone';
 
+currentMoment = new ReactiveVar(moment());
+Meteor.setInterval(() => currentMoment.set(moment()), 1000);
+
 // If you haven't tried async/await with your Meteor Methods...
 async function callPromise(methodName, ...args) {
   return new Promise((resolve, reject) => {
@@ -14,13 +17,13 @@ async function callPromise(methodName, ...args) {
 }
 
 /**
-  This autorun watches the current time and updates the reactive variables
-  to reflect the state of the clock.
-  The input, currentMoment, is a reactive variable with a `moment` object in it
-  The outputs, currentFormattedTime and showColons, are reactive variables used
-  to update the display of the clock in client.js.
+  This autorun watches the current time and updates the reactive variables to
+  reflect the state of the clock. The input, currentMoment, is a reactive
+  variable with a `moment` object in it (defined above). The outputs,
+  `currentFormattedTime` and `showColons`, are reactive variables used to update
+  the display of the clock in client.js.
 */
-function watchTime(currentMoment, currentFormattedTime, showColons) {
+function watchTime(currentFormattedTime, showColons) {
   Tracker.autorun(() => {
     const user = Meteor.user();
     const timezone = user && user.preferences && user.preferences.timezone || moment.tz.guess();
@@ -38,10 +41,10 @@ function watchTime(currentMoment, currentFormattedTime, showColons) {
 
 /**
   This autorun takes as input the `currentMoment`, a reactive variable with  a
-  `moment` object in it. It sets the moon rotation in the provided
-  `moonRotation` reactive variable.
+  `moment` object in it (defined above). It sets the moon rotation in the
+  provided `moonRotation` reactive variable.
 */
-function watchMoon(currentMoment, moonRotation) {
+function watchMoon(moonRotation) {
   Tracker.autorun(async () => {
     const current = currentMoment.get();
     const illumination = await callPromise('getMoonIllumination', {

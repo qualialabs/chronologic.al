@@ -18,8 +18,6 @@ Template.clock.onCreated(function() {
 
   _.extend(tpl, {
 
-    currentMoment: new ReactiveVar(moment()),
-
     currentFormattedTime: new ReactiveVar(''),
 
     moonRotation: new ReactiveVar(0),
@@ -27,10 +25,8 @@ Template.clock.onCreated(function() {
     showColons: new ReactiveVar(true),
 
     initialize() {
-      Meteor.setInterval(() => tpl.currentMoment.set(moment()), 1000);
-
-      watchTime(tpl.currentMoment, tpl.currentFormattedTime, tpl.showColons);
-      watchMoon(tpl.currentMoment, tpl.moonRotation);
+      watchTime(tpl.currentFormattedTime, tpl.showColons);
+      watchMoon(tpl.moonRotation);
       recordLastActiveDate();
     },
 
