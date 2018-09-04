@@ -5,7 +5,7 @@ import lune from 'lune';
 Meteor.methods({
   'getMoonIllumination'(args) {
     try {
-      return lune.phase(date).illumination;
+      return lune.phase(date).illuminated;
     } catch (e) {
       return 0;
     }
