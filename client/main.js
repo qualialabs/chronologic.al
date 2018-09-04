@@ -4,20 +4,10 @@ import { _ } from 'meteor/underscore';
 import { Random } from 'meteor/random';
 import moment from 'moment-timezone';
 
+import { watchTime, watchMoon, recordLastActiveDate } from './time';
+
 import '../common';
 import './main.html';
-
-// If you haven't tried async/await with your Meteor Methods...
-async function callPromise(methodName, ...args) {
-  return new Promise((resolve, reject) => {
-    Meteor.apply(methodName, args, {}, (error, result) => {
-      if (error) {
-        return reject(error);
-      }
-      return resolve(result);
-    });
-  });
-}
 
 Template.clock.onCreated(function() {
   const tpl = this;
@@ -36,52 +26,12 @@ Template.clock.onCreated(function() {
 
     showColons: new ReactiveVar(true),
 
-    themeColor: new ReactiveVar('#eee'),
-
     initialize() {
-      tpl.startTimer();
-      tpl.watchTime();
-      tpl.watchMoon();
-      tpl.recordLastActiveDate();
-    },
-
-    startTimer() {
       Meteor.setInterval(() => tpl.currentMoment.set(moment()), 1000);
-    },
 
-    watchTime() {
-      Tracker.autorun(() => {
-        const user = Meteor.user();
-        const timezone = user && user.preferences && user.preferences.timezone || moment.tz.guess();
-        const currentMoment = tpl.currentMoment.get();
-        currentMoment.tz(timezone);
-        const shouldShowColons = Tracker.nonreactive(() => tpl.showColons.get());
-        const format = shouldShowColons ? 'HH:mm:ss' : 'HH mm ss';
-        tpl.currentFormattedTime.set(currentMoment.format(format));
-        tpl.showColons.set(!shouldShowColons);
-      });
-    },
-
-    watchMoon() {
-      Tracker.autorun(async () => {
-        const currentMoment = tpl.currentMoment.get();
-        const illumination = await callPromise('getMoonIllumination', {
-          date: new Date(currentMoment),
-        });
-        tpl.moonRotation.set(illumination * 180 - 90)
-      });
-    },
-
-    recordLastActiveDate() {
-      Meteor.setInterval(() => {
-        if (Meteor.userId()) {
-          Meteor.users.update(Meteor.userId(), {
-            $set: {
-              last_active_date: new Date(),
-            },
-          });
-        }
-      }, 300);
+      watchTime(tpl.currentMoment, tpl.currentFormattedTime, tpl.showColons);
+      watchMoon(tpl.currentMoment, tpl.moonRotation);
+      recordLastActiveDate();
     },
 
   });

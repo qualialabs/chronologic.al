@@ -1,9 +1,9 @@
 # Chronologic.al: Debugging Practice App
 
 This simple Meteor application is designed to help you practice debugging in
-Meteor. It's a simple live clock that shows the current time. Users can log in
-to reveal some preference selections, and customize their timezone and theme
-color.
+Meteor in a production setting. It's a simple live clock that shows the current
+time. Users can log in to customize their timezone and theme color. The app is
+build with the `--production` flag to simulate a real debugging situation.
 
 The app is mostly working, but users have reported some problems. Work through
 the examples below to practice debugging in Meteor!
@@ -28,7 +28,7 @@ blinking becomes much more erratic. What's going on here?
 The `watchTime` function in `client/main.js` is responsible for updating the
 displayed time. Try looking at it in the Chrome debugger!
 
-## Problem 2:
+## Problem 2: Why is the moon phase stuck?
 
 ### Problem description:
 
@@ -41,6 +41,13 @@ new moon (completely hidden) all the time. Why isn't the moon phase changing?
 The client calls the meteor method `getMoonIllumination` to check the current
 phase of the moon. Uncomment the line to add `demo:method-enhancements` in
 `.meteor/packages` to enable method logging!
+
+Once you see what's going on in the logs, try logging in to the production
+Meteor shell to test the function. The `qualia:prod-shell` package created a
+script in your home directory to log in to the Meteor shell. In production, this
+file would be on your server, accessible via SSH.
+
+Run `node ~/meteor-shell.js` to open the prod Meteor shell.
 
 ## Problem 3: What's happening with user preferences?
 

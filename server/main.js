@@ -2,4 +2,4 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
 import '../common';
-import './methods';
+export * from './methods';
