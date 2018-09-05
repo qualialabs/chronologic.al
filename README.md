@@ -56,6 +56,9 @@ file would be on your server, accessible via SSH.
 
 Run `node ~/meteor-shell.js` to open the prod Meteor shell.
 
+In `server/methods.js`, there is a global function called `calculateMoonPhase`.
+Try running it in the Meteor shell!
+
 ## Problem 3: What's happening with user preferences?
 
 ### Problem description:
