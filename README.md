@@ -12,10 +12,8 @@ the examples below to practice debugging in Meteor!
 
 ## Start the app
 
-1. If you don't have Node, install it (try
-https://github.com/creationix/nvm)
-2. Install Meteor on your computer with `npm install --global meteor`
-3. Run `npm start` in the root directory of this repo to start the app
+1. Install Meteor on your computer from https://www.meteor.com/install
+2. Run `npm start` in the root directory of this repo to start the app
 
 ## Problem 1: Why is the clock blinking so quickly?
 
