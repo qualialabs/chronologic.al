@@ -81,6 +81,7 @@ and run it in a virtual machine.
 To try it out, run the following commands in this repo's root directory. You
 will need Vagrant and Virtualbox installed on your machine.
 
+    npm install -g mup
     vagrant up
     cd .deploy
     mup setup
