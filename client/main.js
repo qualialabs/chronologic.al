@@ -13,8 +13,7 @@ Template.clock.onCreated(function() {
   const tpl = this;
 
   Meteor.subscribe('users.basic');
-  Meteor.subscribe('users.theme');
-  Meteor.subscribe('users.timezone');
+  Meteor.subscribe('users.preferences');
 
   _.extend(tpl, {
 
