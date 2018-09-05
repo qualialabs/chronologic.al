@@ -7,7 +7,7 @@ See the [slides](https://goo.gl/zsquES) for more info!
 This simple Meteor application is designed to help you practice debugging in
 Meteor in a production setting. It's a simple live clock that shows the current
 time. Users can log in to customize their timezone and theme color. The app is
-build with the `--production` flag to simulate a real debugging situation.
+built with the `--production` flag to simulate a real debugging situation.
 
 The app is mostly working, but users have reported some problems. Work through
 the examples below to practice debugging in Meteor!
