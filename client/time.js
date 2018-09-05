@@ -25,7 +25,14 @@ async function callPromise(methodName, ...args) {
 */
 function watchTime(currentFormattedTime, showColons) {
   Tracker.autorun(() => {
-    const user = Meteor.user();
+    // If we just fetch the whole user object, this autorun will react to all of
+    // its fields, including `last_active_date`. By projecting the user object,
+    // we limit reactivity to just the timezone field.
+    const user = Meteor.users.findOne(Meteor.userId(), {
+      fields: {
+        'preferences.timezone': 1,
+      },
+    });
     const timezone = user && user.preferences && user.preferences.timezone || moment.tz.guess();
 
     const current = currentMoment.get();
