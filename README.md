@@ -14,9 +14,11 @@ the examples below to practice debugging in Meteor!
 
 ## Start the app
 
-1. Clone this repo with `git clone https://github.com/qualialabs/chronologic.al.git`
-2. Install Meteor on your computer from https://www.meteor.com/install
-3. Run `npm start` in the root directory of this repo to start the app
+1. Install Meteor on your computer from https://www.meteor.com/install
+2. Clone this repo with `git clone https://github.com/qualialabs/chronologic.al.git`
+3. `cd chronologic.al` 
+4. `meteor npm install`
+5. `meteor npm start`
 
 ## Problem 1: Why is the clock blinking so quickly?
 
