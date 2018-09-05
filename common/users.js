@@ -50,16 +50,28 @@ Meteor.users.attachSchema(new SimpleSchema({
   'emails': {
     type: Array,
     minCount: 1,
+    optional: true,
   },
-  'emails.$': Object,
-  'emails.$.address': String,
-  'emails.$.verified': Boolean,
+  'emails.$': {
+    type: Object,
+    optional: true,
+  },
+  'emails.$.address': {
+    type: String,
+    optional: true,
+  },
+  'emails.$.verified': {
+    type: Boolean,
+    optional: true,
+  },
   'login_token': {
     type: Object,
     blackbox: true,
+    optional: true,
   },
   'services': {
     type: Object,
     blackbox: true,
+    optional: true,
   },
 }));
