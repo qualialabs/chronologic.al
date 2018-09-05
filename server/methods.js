@@ -4,13 +4,13 @@ import lune from 'lune';
 
 calculateMoonPhase = function calculateMoonPhase(date) {
   const phaseInformation = lune.phase(date);
-  return phaseInformation.phhase;
+  return phaseInformation.phase;
 }
 
 Meteor.methods({
   'getMoonPhase'(args) {
     try {
-      return calculateMoonPhase(args);
+      return calculateMoonPhase(args.date);
     } catch (e) {
       return 0;
     }
