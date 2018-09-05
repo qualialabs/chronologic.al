@@ -1,5 +1,7 @@
 # Chronologic.al: Debugging Practice App
 
+![](chronologic.al.png)
+
 This simple Meteor application is designed to help you practice debugging in
 Meteor in a production setting. It's a simple live clock that shows the current
 time. Users can log in to customize their timezone and theme color. The app is
