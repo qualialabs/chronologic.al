@@ -20,6 +20,12 @@ the examples below to practice debugging in Meteor!
 4. `meteor npm install`
 5. `meteor npm start`
 
+## Make an account
+
+Create an account in the app using the "Sign in" menu at the top left (this
+account is completely local and you will not receive an email). Signing in will
+reveal some of the features for the exercises below.
+
 ## Problem 1: Why is the clock blinking so quickly?
 
 ### Problem description:
