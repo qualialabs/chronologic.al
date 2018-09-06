@@ -16,7 +16,7 @@ the examples below to practice debugging in Meteor!
 
 1. Install Meteor on your computer from https://www.meteor.com/install
 2. Clone this repo with `git clone https://github.com/qualialabs/chronologic.al.git`
-3. `cd chronologic.al` 
+3. `cd chronologic.al`
 4. `meteor npm install`
 5. `meteor npm start`
 
@@ -31,7 +31,7 @@ blinking becomes much more erratic. What's going on here?
 ### Hint:
 
 The `watchTime` function in `client/time.js` is responsible for updating the
-displayed time. Try looking at it in the Chrome debugger!
+displayed time. Try setting a breakpoint in it in the Chrome debugger!
 
 ## Problem 2: Why is the moon phase stuck?
 
@@ -52,7 +52,7 @@ enable method logging!
 Once you see what's going on in the logs, try logging in to the production
 Meteor shell to test the function. The `qualia:prod-shell` package created a
 script in your home directory to log in to the Meteor shell. In production, this
-file would be on your server, accessible via SSH.
+file would be in the home directory of your server, accessible via SSH.
 
 Run `node ~/meteor-shell.js` to open the prod Meteor shell.
 
@@ -71,8 +71,13 @@ it doesn't seem to "stick".
 ### Hint:
 
 This one is subtle :) The form inputs for the user's preferences rely on data
-published from the server. Check out the subscriptions in the Meteor dev tools,
-and the docs at https://docs.meteor.com/api/pubsub.html#Meteor-publish
+published from the server.
+
+Check out the subscriptions in the Meteor dev tools "DDP" tab, and look at what
+data the client has in the "MiniMongo" tab.
+
+Also have a close look at the docs at
+https://docs.meteor.com/api/pubsub.html#Meteor-publish
 
 ## Bonus (optional): Run this app in a virtual machine
 
