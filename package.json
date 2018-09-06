@@ -1,5 +1,5 @@
 {
-  "name": "buggy",
+  "name": "chronologic.al",
   "private": true,
   "scripts": {
     "start": "meteor run --production",
